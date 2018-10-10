@@ -1,18 +1,19 @@
 Name:           unit
-Version:        
+Version:        1.4
 Release:        1%{?dist}
-Summary:        
+Summary:        A dynamic web and application server.
 
-Group:          
-License:        
-URL:            
-Source0:        
+Group:          System Environment/Daemons
+License:        ASL 2.0
+URL:            https://unit.nginx.org/
+Source0:        https://github.com/nginx/unit/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  
-Requires:       
+#BuildRequires:  
+#Requires:       
 
 %description
+NGINX Unit is a dynamic web and application server, designed to run applications in multiple languages. Unit is lightweight, polyglot, and dynamically configured via API. The design of the server allows reconfiguration of specific application parameters as needed by the engineering or operations.
 
 
 %prep
@@ -40,3 +41,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Oct 10 2018 Ryoh Kawai <kawairyoh@gmail.com> - 1.4-1%{?dist}
+- initial create

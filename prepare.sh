@@ -2,13 +2,13 @@
 
 set -Ceuo pipefail
 
-rpm -q rpm-build   || sudo yum install -y rpm-build
-rpm -q rpmdevtools || sudo yum install -y rpmdevtools
-rpm -q yum-utils   || sudo yum install -y yum-utils
+rpm -q rpm-build   >/dev/null || sudo yum install -qy rpm-build
+rpm -q rpmdevtools >/dev/null || sudo yum install -qy rpmdevtools
+rpm -q yum-utils   >/dev/null || sudo yum install -qy yum-utils
 
 if [[ ! -f $HOME/.rpmmacros ]]; then
-  ln -sfn .rpmmacros $HOME/.rpmmacros
+  cp -fp .rpmmacros $HOME/.rpmmacros
 fi
 
-spectool -g -R SPEC/unit.spec
+spectool -g -R SPECS/unit.spec
 sudo yum-builddep SPEC/unit.spec
