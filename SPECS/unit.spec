@@ -16,6 +16,8 @@ URL:            https://unit.nginx.org/
 Source0:        https://github.com/nginx/unit/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 Source10:       unit.service
 Source11:       unit.sysconfig
+Source12:       unit.logrotate
+Source13:       unit.tmpfiles
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  openssl-devel
@@ -48,13 +50,28 @@ LDFLAGS="${LDFLAGS:-%__global_ldflags}"; export LDFLAGS;
   --group=%{unit_group} \
   --openssl \
 
-%make_build
+%make_build all
 
 
 %install
 [[ -d %{buildroot} ]] && rm -rf "%{buildroot}"
 %{__mkdir} -p "%{buildroot}"
-%make_install
+%make_install all
+
+# systemd service
+%{__install} -D -p -m 0400 %{SOURCE10} %{buildroot}%{_unitdir}/unit.service
+%{__install} -D -p -m 0400 %{SOURCE11} %{buildroot}%{_sysconfdir}/sysconfig/unit
+
+# log
+%{__install} -d -m 0755 %{buildroot}%{_localstatedir}/log/unit
+%{__install} -D -p -m 0400 %{SOURCE12} %{buildroot}%{_sysconfdir}/logrotate.d/unit
+
+# pid/socket dir
+%{__install} -d -m 0700 %{buildroot}%{_rundir}/unit
+%{__install} -D -p -m 0400 %{SOURCE13} %{buildroot}%{_tmpfilesdir}/unit.conf
+
+# config files
+%{__install} -d -m 0700 %{buildroot}%{_sysconfdir}/unit
 
 
 %clean
@@ -79,7 +96,8 @@ case $1 in
 esac
 
 %post
-#%systemd_post unit.service
+%systemd_post unit.service
+%tmpfiles_create unit.conf
 case $1 in
   1)
   : install
@@ -90,7 +108,7 @@ case $1 in
 esac
 
 %preun
-#%systemd_pre unit.service
+%systemd_pre unit.service
 case $1 in
   0)
   : uninstall
@@ -101,7 +119,7 @@ case $1 in
 esac
 
 %postun
-#%systemd_postun unit.service
+%systemd_postun unit.service
 case $1 in
   0)
   : uninstall
@@ -121,6 +139,14 @@ esac
 %defattr(-,root,root,-)
 %doc CHANGES LICENSE NOTICE README
 %{_sbindir}/unitd
+
+%attr(700,root,root) %dir %{_sysconfdir}/unit
+%attr(700,root,root) %dir %{_localstatedir}/log/unit
+
+%config(noreplace) %{_unitdir}/unit.service
+%config(noreplace) %{_sysconfdir}/sysconfig/unit
+%config(noreplace) %{_sysconfdir}/logrotate.d/unit
+%config(noreplace) %{_tmpfilesdir}/unit.conf
 
 
 %changelog

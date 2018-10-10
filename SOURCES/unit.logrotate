@@ -1,0 +1,13 @@
+/var/log/unit/*.log {
+    daily
+    dateyesterday
+    rotate 7
+    create 0644 unit adm
+    compress
+    missingok
+    ifempty
+    sharedscripts
+    postrotate
+       kill -s USR1 $(cat /run/unit/unit.pid)
+    endscript
+}
