@@ -84,6 +84,17 @@ BuildRequires:  python36-devel
 %{_libdir}/unit/modules/python36.unit.so
 
 
+%package php
+Summary:        NGINX Unit PHP 5.4 module
+BuildRequires:  php-devel php-embedded
+
+%description php
+%{summary}
+
+%files php
+%{_libdir}/unit/modules/php.unit.so
+
+
 %prep
 %setup -q
 
@@ -109,19 +120,26 @@ LDFLAGS="${LDFLAGS:-%__global_ldflags}"; export LDFLAGS;
 
 ./configure perl \
   --module=perl \
-  --perl=%{_bindir}/perl \
+  --perl=%{__perl} \
 
 ./configure python \
   --module=python27 \
+  --config=python2.7-config \
   --lib-path=%{_libdir}/libpython2.7.so \
 
 ./configure python \
   --module=python34 \
+  --config=python3.4-config \
   --lib-path=%{_libdir}/libpython3.4m.so \
 
 ./configure python \
   --module=python36 \
+  --config=python3.6-config \
   --lib-path=%{_libdir}/libpython3.6m.so \
+
+./configure php \
+  --module=php \
+  --lib-path=%{_libdir}/libphp5.so \
 
 %make_build all
 
