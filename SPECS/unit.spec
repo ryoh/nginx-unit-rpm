@@ -26,6 +26,19 @@ Requires:       openssl
 %description
 NGINX Unit is a dynamic web and application server, designed to run applications in multiple languages. Unit is lightweight, polyglot, and dynamically configured via API. The design of the server allows reconfiguration of specific application parameters as needed by the engineering or operations.
 
+%files
+%defattr(-,root,root,-)
+%doc CHANGES LICENSE NOTICE README
+%attr(755,root,root) %{_sbindir}/unitd
+
+%attr(700,root,root) %dir %{_sysconfdir}/unit
+%attr(700,root,root) %dir %{_localstatedir}/log/unit
+
+%config(noreplace) %{_unitdir}/unit.service
+%config(noreplace) %{_sysconfdir}/sysconfig/unit
+%config(noreplace) %{_sysconfdir}/logrotate.d/unit
+%config(noreplace) %{_tmpfilesdir}/unit.conf
+
 
 %package perl
 Summary:        NGINX Unit perl module
@@ -38,8 +51,41 @@ BuildRequires:  perl-ExtUtils-Embed
 %{_libdir}/unit/modules/perl.unit.so
 
 
+%package python27
+Summary:        NGINX Unit python 2.7 module
+BuildRequires:  python-devel
+
+%description python27
+%{summary}
+
+%files python27
+%{_libdir}/unit/modules/python27.unit.so
+
+
+%package python34
+Summary:        NGINX Unit python 3.4 module
+BuildRequires:  python34-devel
+
+%description python34
+%{summary}
+
+%files python34
+%{_libdir}/unit/modules/python34.unit.so
+
+
+%package python36
+Summary:        NGINX Unit python 3.6 module
+BuildRequires:  python36-devel
+
+%description python36
+%{summary}
+
+%files python36
+%{_libdir}/unit/modules/python36.unit.so
+
+
 %prep
-%autosetup -q
+%setup -q
 
 
 %build
@@ -64,6 +110,18 @@ LDFLAGS="${LDFLAGS:-%__global_ldflags}"; export LDFLAGS;
 ./configure perl \
   --module=perl \
   --perl=%{_bindir}/perl \
+
+./configure python \
+  --module=python27 \
+  --lib-path=%{_libdir}/libpython2.7.so \
+
+./configure python \
+  --module=python34 \
+  --lib-path=%{_libdir}/libpython3.4m.so \
+
+./configure python \
+  --module=python36 \
+  --lib-path=%{_libdir}/libpython3.6m.so \
 
 %make_build all
 
@@ -148,20 +206,6 @@ case $1 in
   : update
   ;;
 esac
-
-
-%files
-%defattr(-,root,root,-)
-%doc CHANGES LICENSE NOTICE README
-%attr(755,root,root) %{_sbindir}/unitd
-
-%attr(700,root,root) %dir %{_sysconfdir}/unit
-%attr(700,root,root) %dir %{_localstatedir}/log/unit
-
-%config(noreplace) %{_unitdir}/unit.service
-%config(noreplace) %{_sysconfdir}/sysconfig/unit
-%config(noreplace) %{_sysconfdir}/logrotate.d/unit
-%config(noreplace) %{_tmpfilesdir}/unit.conf
 
 
 %changelog
