@@ -27,8 +27,19 @@ Requires:       openssl
 NGINX Unit is a dynamic web and application server, designed to run applications in multiple languages. Unit is lightweight, polyglot, and dynamically configured via API. The design of the server allows reconfiguration of specific application parameters as needed by the engineering or operations.
 
 
+%package perl
+Summary:        NGINX Unit perl module
+BuildRequires:  perl-ExtUtils-Embed
+
+%description perl
+%{summary}
+
+%files perl
+%{_libdir}/unit/modules/perl.unit.so
+
+
 %prep
-%setup -q
+%autosetup -q
 
 
 %build
@@ -49,6 +60,10 @@ LDFLAGS="${LDFLAGS:-%__global_ldflags}"; export LDFLAGS;
   --user=%{unit_user} \
   --group=%{unit_group} \
   --openssl \
+
+./configure perl \
+  --module=perl \
+  --perl=%{_bindir}/perl \
 
 %make_build all
 
@@ -138,7 +153,7 @@ esac
 %files
 %defattr(-,root,root,-)
 %doc CHANGES LICENSE NOTICE README
-%{_sbindir}/unitd
+%attr(755,root,root) %{_sbindir}/unitd
 
 %attr(700,root,root) %dir %{_sysconfdir}/unit
 %attr(700,root,root) %dir %{_localstatedir}/log/unit
