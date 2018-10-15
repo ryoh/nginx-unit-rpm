@@ -12,6 +12,8 @@
 %bcond_without  php
 %bcond_without  ruby
 
+%bcond_with     rhphp71
+
 Name:           unit
 Version:        1.4
 Release:        1%{?dist}
@@ -113,6 +115,19 @@ BuildRequires:  php-devel php-embedded
 %endif
 
 
+%if %{with rhphp71}
+%package rhphp71
+Summary:        NGINX Unit PHP 7.1 module
+BuildRequires:  rh-php71-php-devel rh-php71-php-embedded
+
+%description rhphp71
+%{summary}
+
+%files rhphp71
+%{_libdir}/unit/modules/rhphp71.unit.so
+%endif
+
+
 %if %{with ruby}
 %package ruby
 Summary:        NGINX Unit Ruby 2.0 module
@@ -179,7 +194,15 @@ LDFLAGS="${LDFLAGS:-%__global_ldflags}"; export LDFLAGS;
 %if %{with php}
 ./configure php \
   --module=php \
+  --config=%{_bindir}/php-config \
   --lib-path=%{_libdir}/libphp5.so \
+%endif
+
+%if %{with rhphp71}
+./configure php \
+  --module=rhphp71 \
+  --config=/opt/rh/rh-php71/root/bin/php-config \
+  --lib-path=/opt/rh/rh-php71/root/%{_libdir}/libphp7.so \
 %endif
 
 %if %{with ruby}
@@ -213,7 +236,7 @@ LDFLAGS="${LDFLAGS:-%__global_ldflags}"; export LDFLAGS;
 
 
 # For Ruby
-export QA_RPATHS=1
+export QA_RPATHS=3
 
 
 %clean
