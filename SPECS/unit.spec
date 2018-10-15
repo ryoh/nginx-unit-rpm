@@ -5,6 +5,12 @@
 %global         unit_uid            967
 %global         unit_gid            967
 
+%bcond_without  perl
+%bcond_without  python27
+%bcond_without  python34
+%bcond_without  python36
+%bcond_without  php
+
 Name:           unit
 Version:        1.4
 Release:        1%{?dist}
@@ -41,6 +47,7 @@ NGINX Unit is a dynamic web and application server, designed to run applications
 %config(noreplace) %{_tmpfilesdir}/unit.conf
 
 
+%if %{with perl}
 %package perl
 Summary:        NGINX Unit perl module
 BuildRequires:  perl-ExtUtils-Embed
@@ -50,8 +57,10 @@ BuildRequires:  perl-ExtUtils-Embed
 
 %files perl
 %{_libdir}/unit/modules/perl.unit.so
+%endif
 
 
+%if %{with python27}
 %package python27
 Summary:        NGINX Unit python 2.7 module
 BuildRequires:  python-devel
@@ -61,8 +70,10 @@ BuildRequires:  python-devel
 
 %files python27
 %{_libdir}/unit/modules/python27.unit.so
+%endif
 
 
+%if %{with python34}
 %package python34
 Summary:        NGINX Unit python 3.4 module
 BuildRequires:  python34-devel
@@ -72,8 +83,10 @@ BuildRequires:  python34-devel
 
 %files python34
 %{_libdir}/unit/modules/python34.unit.so
+%endif
 
 
+%if %{with python36}
 %package python36
 Summary:        NGINX Unit python 3.6 module
 BuildRequires:  python36-devel
@@ -83,8 +96,10 @@ BuildRequires:  python36-devel
 
 %files python36
 %{_libdir}/unit/modules/python36.unit.so
+%endif
 
 
+%if %{with php}
 %package php
 Summary:        NGINX Unit PHP 5.4 module
 BuildRequires:  php-devel php-embedded
@@ -94,6 +109,7 @@ BuildRequires:  php-devel php-embedded
 
 %files php
 %{_libdir}/unit/modules/php.unit.so
+%endif
 
 
 %prep
@@ -119,28 +135,38 @@ LDFLAGS="${LDFLAGS:-%__global_ldflags}"; export LDFLAGS;
   --group=%{unit_group} \
   --openssl \
 
+%if %{with perl}
 ./configure perl \
   --module=perl \
   --perl=%{__perl} \
+%endif
 
+%if %{with python27}
 ./configure python \
   --module=python27 \
   --config=python2.7-config \
   --lib-path=%{_libdir}/libpython2.7.so \
+%endif
 
+%if %{with python34}
 ./configure python \
   --module=python34 \
   --config=python3.4-config \
   --lib-path=%{_libdir}/libpython3.4m.so \
+%endif
 
+%if %{with python36}
 ./configure python \
   --module=python36 \
   --config=python3.6-config \
   --lib-path=%{_libdir}/libpython3.6m.so \
+%endif
 
+%if %{with php}
 ./configure php \
   --module=php \
   --lib-path=%{_libdir}/libphp5.so \
+%endif
 
 %make_build all
 
