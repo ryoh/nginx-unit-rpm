@@ -10,6 +10,7 @@
 %bcond_without  python34
 %bcond_without  python36
 %bcond_without  php
+%bcond_without  ruby
 
 Name:           unit
 Version:        1.4
@@ -112,6 +113,19 @@ BuildRequires:  php-devel php-embedded
 %endif
 
 
+%if %{with ruby}
+%package ruby
+Summary:        NGINX Unit Ruby 2.0 module
+BuildRequires:  ruby-devel
+
+%description ruby
+%{summary}
+
+%files ruby
+%{_libdir}/unit/modules/ruby.unit.so
+%endif
+
+
 %prep
 %setup -q
 
@@ -168,6 +182,12 @@ LDFLAGS="${LDFLAGS:-%__global_ldflags}"; export LDFLAGS;
   --lib-path=%{_libdir}/libphp5.so \
 %endif
 
+%if %{with ruby}
+./configure ruby \
+  --module=ruby \
+  --ruby=%{_bindir}/ruby \
+%endif
+
 %make_build all
 
 
@@ -190,6 +210,10 @@ LDFLAGS="${LDFLAGS:-%__global_ldflags}"; export LDFLAGS;
 
 # config files
 %{__install} -d -m 0700 %{buildroot}%{_sysconfdir}/unit
+
+
+# For Ruby
+export QA_RPATHS=1
 
 
 %clean
