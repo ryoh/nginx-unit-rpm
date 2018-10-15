@@ -20,6 +20,7 @@ Source12:       unit.logrotate
 Source13:       unit.tmpfiles
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+%systemd_requires
 BuildRequires:  openssl-devel
 Requires:       openssl
 
