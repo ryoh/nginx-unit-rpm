@@ -12,6 +12,8 @@
 %bcond_without  php
 %bcond_without  ruby
 
+%bcond_with     php56
+%bcond_with     php70
 %bcond_with     php71
 
 Name:           unit
@@ -118,6 +120,36 @@ BuildRequires:  php-devel php-embedded
 %endif
 
 
+%if %{with php56}
+%package php56
+Summary:        NGINX Unit PHP 7.1 module
+AutoReq:        0
+BuildRequires:  rh-php56-php-devel rh-php56-php-embedded
+Requires:       rh-php56-php-embedded
+
+%description php56
+%{summary}
+
+%files php56
+%{_libdir}/unit/modules/php56.unit.so
+%endif
+
+
+%if %{with php70}
+%package php70
+Summary:        NGINX Unit PHP 7.1 module
+AutoReq:        0
+BuildRequires:  rh-php70-php-devel rh-php70-php-embedded
+Requires:       rh-php70-php-embedded
+
+%description php70
+%{summary}
+
+%files php70
+%{_libdir}/unit/modules/php70.unit.so
+%endif
+
+
 %if %{with php71}
 %package php71
 Summary:        NGINX Unit PHP 7.1 module
@@ -201,6 +233,20 @@ LDFLAGS="${LDFLAGS:-%__global_ldflags}"; export LDFLAGS;
   --module=php \
   --config=%{_bindir}/php-config \
   --lib-path=%{_libdir} \
+%endif
+
+%if %{with php56}
+./configure php \
+  --module=php56 \
+  --config=/opt/rh/rh-php56/root/bin/php-config \
+  --lib-path=/opt/rh/rh-php56/root%{_libdir} \
+%endif
+
+%if %{with php70}
+./configure php \
+  --module=php70 \
+  --config=/opt/rh/rh-php70/root/bin/php-config \
+  --lib-path=/opt/rh/rh-php70/root%{_libdir} \
 %endif
 
 %if %{with php71}
