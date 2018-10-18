@@ -12,7 +12,7 @@
 %bcond_without  php
 %bcond_without  ruby
 
-%bcond_with     rhphp71
+%bcond_with     php71
 
 Name:           unit
 Version:        1.4
@@ -43,6 +43,9 @@ NGINX Unit is a dynamic web and application server, designed to run applications
 
 %attr(700,root,root) %dir %{_sysconfdir}/unit
 %attr(700,root,root) %dir %{_localstatedir}/log/unit
+%attr(700,root,root) %dir %{_sharedstatedir}/unit
+%attr(700,root,root) %dir %{_sharedstatedir}/unit/state
+%attr(700,root,root) %dir %{_libdir}/unit/modules
 
 %config(noreplace) %{_unitdir}/unit.service
 %config(noreplace) %{_sysconfdir}/sysconfig/unit
@@ -115,16 +118,18 @@ BuildRequires:  php-devel php-embedded
 %endif
 
 
-%if %{with rhphp71}
-%package rhphp71
+%if %{with php71}
+%package php71
 Summary:        NGINX Unit PHP 7.1 module
+AutoReq:        0
 BuildRequires:  rh-php71-php-devel rh-php71-php-embedded
+Requires:       rh-php71-php-embedded
 
-%description rhphp71
+%description php71
 %{summary}
 
-%files rhphp71
-%{_libdir}/unit/modules/rhphp71.unit.so
+%files php71
+%{_libdir}/unit/modules/php71.unit.so
 %endif
 
 
@@ -195,14 +200,14 @@ LDFLAGS="${LDFLAGS:-%__global_ldflags}"; export LDFLAGS;
 ./configure php \
   --module=php \
   --config=%{_bindir}/php-config \
-  --lib-path=%{_libdir}/libphp5.so \
+  --lib-path=%{_libdir} \
 %endif
 
-%if %{with rhphp71}
+%if %{with php71}
 ./configure php \
-  --module=rhphp71 \
+  --module=php71 \
   --config=/opt/rh/rh-php71/root/bin/php-config \
-  --lib-path=/opt/rh/rh-php71/root/%{_libdir}/libphp7.so \
+  --lib-path=/opt/rh/rh-php71/root%{_libdir} \
 %endif
 
 %if %{with ruby}
