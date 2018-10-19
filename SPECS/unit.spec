@@ -15,6 +15,10 @@
 %bcond_with     php56
 %bcond_with     php70
 %bcond_with     php71
+%bcond_with     ruby23
+%bcond_with     ruby24
+%bcond_with     ruby25
+
 
 Name:           unit
 Version:        1.4
@@ -59,6 +63,7 @@ NGINX Unit is a dynamic web and application server, designed to run applications
 %package perl
 Summary:        NGINX Unit perl module
 BuildRequires:  perl-ExtUtils-Embed
+Requires:       %{name}
 
 %description perl
 %{summary}
@@ -72,6 +77,7 @@ BuildRequires:  perl-ExtUtils-Embed
 %package python27
 Summary:        NGINX Unit python 2.7 module
 BuildRequires:  python-devel
+Requires:       %{name}
 
 %description python27
 %{summary}
@@ -85,6 +91,7 @@ BuildRequires:  python-devel
 %package python34
 Summary:        NGINX Unit python 3.4 module
 BuildRequires:  python34-devel
+Requires:       %{name}
 
 %description python34
 %{summary}
@@ -98,6 +105,7 @@ BuildRequires:  python34-devel
 %package python36
 Summary:        NGINX Unit python 3.6 module
 BuildRequires:  python36-devel
+Requires:       %{name}
 
 %description python36
 %{summary}
@@ -111,6 +119,7 @@ BuildRequires:  python36-devel
 %package php
 Summary:        NGINX Unit PHP 5.4 module
 BuildRequires:  php-devel php-embedded
+Requires:       %{name}
 
 %description php
 %{summary}
@@ -126,6 +135,7 @@ Summary:        NGINX Unit PHP 7.1 module
 AutoReq:        0
 BuildRequires:  rh-php56-php-devel rh-php56-php-embedded
 Requires:       rh-php56-php-embedded
+Requires:       %{name}
 
 %description php56
 %{summary}
@@ -141,6 +151,7 @@ Summary:        NGINX Unit PHP 7.1 module
 AutoReq:        0
 BuildRequires:  rh-php70-php-devel rh-php70-php-embedded
 Requires:       rh-php70-php-embedded
+Requires:       %{name}
 
 %description php70
 %{summary}
@@ -156,6 +167,7 @@ Summary:        NGINX Unit PHP 7.1 module
 AutoReq:        0
 BuildRequires:  rh-php71-php-devel rh-php71-php-embedded
 Requires:       rh-php71-php-embedded
+Requires:       %{name}
 
 %description php71
 %{summary}
@@ -169,12 +181,58 @@ Requires:       rh-php71-php-embedded
 %package ruby
 Summary:        NGINX Unit Ruby 2.0 module
 BuildRequires:  ruby-devel
+Requires:       %{name}
 
 %description ruby
 %{summary}
 
 %files ruby
 %{_libdir}/unit/modules/ruby.unit.so
+%endif
+
+
+%if %{with ruby23}
+%package ruby23
+Summary:        NGINX Unit Ruby 2.3 module
+BuildRequires:  rh-ruby23-ruby-devel
+Requires:       rh-ruby23-ruby
+Requires:       %{name}
+
+%description ruby23
+%{summary}
+
+%files ruby23
+%{_libdir}/unit/modules/ruby23.unit.so
+%endif
+
+
+%if %{with ruby24}
+%package ruby24
+Summary:        NGINX Unit Ruby 2.4 module
+BuildRequires:  rh-ruby24-ruby-devel
+Requires:       rh-ruby24-ruby
+Requires:       %{name}
+
+%description ruby24
+%{summary}
+
+%files ruby24
+%{_libdir}/unit/modules/ruby24.unit.so
+%endif
+
+
+%if %{with ruby25}
+%package ruby25
+Summary:        NGINX Unit Ruby 2.5 module
+BuildRequires:  rh-ruby25-ruby-devel
+Requires:       rh-ruby25-ruby
+Requires:       %{name}
+
+%description ruby25
+%{summary}
+
+%files ruby25
+%{_libdir}/unit/modules/ruby25.unit.so
 %endif
 
 
@@ -260,6 +318,27 @@ LDFLAGS="${LDFLAGS:-%__global_ldflags}"; export LDFLAGS;
 ./configure ruby \
   --module=ruby \
   --ruby=%{_bindir}/ruby \
+%endif
+
+%if %{with ruby23}
+source /opt/rh/rh-ruby23/enable
+./configure ruby \
+  --module=ruby23 \
+  --ruby=/opt/rh/rh-ruby23/root/bin/ruby \
+%endif
+
+%if %{with ruby24}
+source /opt/rh/rh-ruby24/enable
+./configure ruby \
+  --module=ruby24 \
+  --ruby=/opt/rh/rh-ruby24/root/bin/ruby \
+%endif
+
+%if %{with ruby25}
+source /opt/rh/rh-ruby25/enable
+./configure ruby \
+  --module=ruby25 \
+  --ruby=/opt/rh/rh-ruby25/root/bin/ruby \
 %endif
 
 %make_build all
