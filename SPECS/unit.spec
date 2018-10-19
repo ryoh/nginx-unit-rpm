@@ -63,7 +63,7 @@ NGINX Unit is a dynamic web and application server, designed to run applications
 %package perl
 Summary:        NGINX Unit perl module
 BuildRequires:  perl-ExtUtils-Embed
-Requires:       %{name}
+Requires:       %{name} = %{version}
 
 %description perl
 %{summary}
@@ -77,7 +77,8 @@ Requires:       %{name}
 %package python27
 Summary:        NGINX Unit python 2.7 module
 BuildRequires:  python-devel
-Requires:       %{name}
+Requires:       %{name} = %{version}
+Requires:       python
 
 %description python27
 %{summary}
@@ -91,7 +92,8 @@ Requires:       %{name}
 %package python34
 Summary:        NGINX Unit python 3.4 module
 BuildRequires:  python34-devel
-Requires:       %{name}
+Requires:       %{name} = %{version}
+Requires:       python34
 
 %description python34
 %{summary}
@@ -105,7 +107,8 @@ Requires:       %{name}
 %package python36
 Summary:        NGINX Unit python 3.6 module
 BuildRequires:  python36-devel
-Requires:       %{name}
+Requires:       %{name} = %{version}
+Requires:       python36
 
 %description python36
 %{summary}
@@ -119,7 +122,8 @@ Requires:       %{name}
 %package php
 Summary:        NGINX Unit PHP 5.4 module
 BuildRequires:  php-devel php-embedded
-Requires:       %{name}
+Requires:       %{name} = %{version}
+BuildRequires:  php-embedded
 
 %description php
 %{summary}
@@ -134,8 +138,8 @@ Requires:       %{name}
 Summary:        NGINX Unit PHP 7.1 module
 AutoReq:        0
 BuildRequires:  rh-php56-php-devel rh-php56-php-embedded
+Requires:       %{name} = %{version}
 Requires:       rh-php56-php-embedded
-Requires:       %{name}
 
 %description php56
 %{summary}
@@ -150,8 +154,8 @@ Requires:       %{name}
 Summary:        NGINX Unit PHP 7.1 module
 AutoReq:        0
 BuildRequires:  rh-php70-php-devel rh-php70-php-embedded
+Requires:       %{name} = %{version}
 Requires:       rh-php70-php-embedded
-Requires:       %{name}
 
 %description php70
 %{summary}
@@ -166,8 +170,8 @@ Requires:       %{name}
 Summary:        NGINX Unit PHP 7.1 module
 AutoReq:        0
 BuildRequires:  rh-php71-php-devel rh-php71-php-embedded
+Requires:       %{name} = %{version}
 Requires:       rh-php71-php-embedded
-Requires:       %{name}
 
 %description php71
 %{summary}
@@ -181,7 +185,8 @@ Requires:       %{name}
 %package ruby
 Summary:        NGINX Unit Ruby 2.0 module
 BuildRequires:  ruby-devel
-Requires:       %{name}
+Requires:       %{name} = %{version}
+Requires:       rubygem-rack
 
 %description ruby
 %{summary}
@@ -195,8 +200,8 @@ Requires:       %{name}
 %package ruby23
 Summary:        NGINX Unit Ruby 2.3 module
 BuildRequires:  rh-ruby23-ruby-devel
+Requires:       %{name} = %{version}
 Requires:       rh-ruby23-ruby
-Requires:       %{name}
 
 %description ruby23
 %{summary}
@@ -210,8 +215,8 @@ Requires:       %{name}
 %package ruby24
 Summary:        NGINX Unit Ruby 2.4 module
 BuildRequires:  rh-ruby24-ruby-devel
+Requires:       %{name} = %{version}
 Requires:       rh-ruby24-ruby
-Requires:       %{name}
 
 %description ruby24
 %{summary}
@@ -225,8 +230,8 @@ Requires:       %{name}
 %package ruby25
 Summary:        NGINX Unit Ruby 2.5 module
 BuildRequires:  rh-ruby25-ruby-devel
+Requires:       %{name} = %{version}
 Requires:       rh-ruby25-ruby
-Requires:       %{name}
 
 %description ruby25
 %{summary}
