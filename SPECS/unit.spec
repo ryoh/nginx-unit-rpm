@@ -135,10 +135,12 @@ BuildRequires:  php-embedded
 
 %if %{with php56}
 %package php56
-Summary:        NGINX Unit PHP 7.1 module
+Summary:        NGINX Unit PHP 5.6 module
 AutoReq:        0
+BuildRequires:  centos-release-scl
 BuildRequires:  rh-php56-php-devel rh-php56-php-embedded
 Requires:       %{name} = %{version}
+Requires(pre):       centos-release-scl
 Requires:       rh-php56-php-embedded
 
 %description php56
@@ -151,10 +153,12 @@ Requires:       rh-php56-php-embedded
 
 %if %{with php70}
 %package php70
-Summary:        NGINX Unit PHP 7.1 module
+Summary:        NGINX Unit PHP 7.0 module
 AutoReq:        0
+BuildRequires:  centos-release-scl
 BuildRequires:  rh-php70-php-devel rh-php70-php-embedded
 Requires:       %{name} = %{version}
+Requires:       centos-release-scl
 Requires:       rh-php70-php-embedded
 
 %description php70
@@ -169,8 +173,10 @@ Requires:       rh-php70-php-embedded
 %package php71
 Summary:        NGINX Unit PHP 7.1 module
 AutoReq:        0
+BuildRequires:  centos-release-scl
 BuildRequires:  rh-php71-php-devel rh-php71-php-embedded
 Requires:       %{name} = %{version}
+Requires:       centos-release-scl
 Requires:       rh-php71-php-embedded
 
 %description php71
@@ -199,8 +205,10 @@ Requires:       rubygem-rack
 %if %{with ruby23}
 %package ruby23
 Summary:        NGINX Unit Ruby 2.3 module
+BuildRequires:  centos-release-scl
 BuildRequires:  rh-ruby23-ruby-devel
 Requires:       %{name} = %{version}
+Requires:       centos-release-scl
 Requires:       rh-ruby23-ruby
 
 %description ruby23
@@ -214,8 +222,10 @@ Requires:       rh-ruby23-ruby
 %if %{with ruby24}
 %package ruby24
 Summary:        NGINX Unit Ruby 2.4 module
+BuildRequires:  centos-release-scl
 BuildRequires:  rh-ruby24-ruby-devel
 Requires:       %{name} = %{version}
+Requires:       centos-release-scl
 Requires:       rh-ruby24-ruby
 
 %description ruby24
@@ -229,8 +239,10 @@ Requires:       rh-ruby24-ruby
 %if %{with ruby25}
 %package ruby25
 Summary:        NGINX Unit Ruby 2.5 module
+BuildRequires:  centos-release-scl
 BuildRequires:  rh-ruby25-ruby-devel
 Requires:       %{name} = %{version}
+Requires:       centos-release-scl
 Requires:       rh-ruby25-ruby
 
 %description ruby25
