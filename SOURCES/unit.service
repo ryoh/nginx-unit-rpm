@@ -7,9 +7,11 @@ After=syslog.target network.target remote-fs.target nss-lookup.target
 Type=forking
 PIDFile=/run/unit/unit.pid
 EnvironmentFile=/etc/sysconfig/unit
-ExecStart=/sbin/unit
+ExecStart=/sbin/unitd $OPTS
 ExecReload=/bin/kill -s HUP $MAINPID
 ExecStop=/bin/kill -s QUIT $MAINPID
+Restart=always
+
 PrivateTmp=true
 PrivateDevices=true
 ProtectSystem=full
