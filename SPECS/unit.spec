@@ -11,6 +11,7 @@
 %bcond_without  python36
 %bcond_without  php
 %bcond_without  ruby
+%bcond_without  nodejs
 
 %bcond_with     php56
 %bcond_with     php70
@@ -38,6 +39,14 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %systemd_requires
 BuildRequires:  openssl-devel
 Requires:       openssl
+
+
+%if %{with nodejs}
+BuildRequires:  nodejs npm
+BuildRequires:  nodejs-devel node-gyp
+Requires:       %{name} = %{version}
+Requires:       nodejs npm
+%endif
 
 %description
 NGINX Unit is a dynamic web and application server, designed to run applications in multiple languages. Unit is lightweight, polyglot, and dynamically configured via API. The design of the server allows reconfiguration of specific application parameters as needed by the engineering or operations.
@@ -358,6 +367,13 @@ source /opt/rh/rh-ruby25/enable
   --ruby=/opt/rh/rh-ruby25/root/bin/ruby \
 %endif
 
+%if %{with nodejs}
+./configure nodejs \
+  --node=%{_bindir}/node \
+  --npm=%{_bindir}/npm \
+  --node-gyp=%{_bindir}/node-gyp \
+%endif
+
 %make_build all
 
 
@@ -448,6 +464,8 @@ esac
 
 
 %changelog
+* Mon Oct 29 2018 Ryoh Kawai <kawairyoh@gmail.com> - 1.5-2%{?dist}
+- Add Node.JS
 * Mon Oct 29 2018 Ryoh Kawai <kawairyoh@gmail.com> - 1.5-1%{?dist}
 - Bump up 1.5
 * Fri Oct 19 2018 Ryoh Kawai <kawairyoh@gmail.com> - 1.4-2%{?dist}
