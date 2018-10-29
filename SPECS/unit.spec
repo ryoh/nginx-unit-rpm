@@ -5,6 +5,8 @@
 %global         unit_uid            967
 %global         unit_gid            967
 
+%global         gopath              /usr/share/go/contrib
+
 %bcond_without  perl
 %bcond_without  python27
 %bcond_without  python34
@@ -12,6 +14,7 @@
 %bcond_without  php
 %bcond_without  ruby
 %bcond_without  nodejs
+%bcond_without  go
 
 %bcond_with     php56
 %bcond_with     php70
@@ -262,6 +265,122 @@ Requires:       rh-ruby25-ruby
 %endif
 
 
+%if %{with go}
+%package go
+Summary:        NGINX Unit Go module
+BuildRequires:  golang
+Requires:       %{name} = %{version}
+Requires:       golang
+
+%description go
+%{summary}
+
+%files go
+%{gopath}/src/nginx/unit/ldflags-lrt.go
+%{gopath}/src/nginx/unit/port.go
+%{gopath}/src/nginx/unit/request.go
+%{gopath}/src/nginx/unit/response.go
+%{gopath}/src/nginx/unit/unit.go
+%{gopath}/src/nginx/unit/nxt_application.h
+%{gopath}/src/nginx/unit/nxt_array.h
+%{gopath}/src/nginx/unit/nxt_atomic.h
+%{gopath}/src/nginx/unit/nxt_auto_config.h
+%{gopath}/src/nginx/unit/nxt_buf.h
+%{gopath}/src/nginx/unit/nxt_buf_filter.h
+%{gopath}/src/nginx/unit/nxt_buf_pool.h
+%{gopath}/src/nginx/unit/nxt_cache.h
+%{gopath}/src/nginx/unit/nxt_cert.h
+%{gopath}/src/nginx/unit/nxt_cgo_lib.c
+%{gopath}/src/nginx/unit/nxt_cgo_lib.h
+%{gopath}/src/nginx/unit/nxt_clang.h
+%{gopath}/src/nginx/unit/nxt_conf.h
+%{gopath}/src/nginx/unit/nxt_conn.h
+%{gopath}/src/nginx/unit/nxt_djb_hash.h
+%{gopath}/src/nginx/unit/nxt_dyld.h
+%{gopath}/src/nginx/unit/nxt_errno.h
+%{gopath}/src/nginx/unit/nxt_event_engine.h
+%{gopath}/src/nginx/unit/nxt_fastcgi_source.h
+%{gopath}/src/nginx/unit/nxt_fd_event.h
+%{gopath}/src/nginx/unit/nxt_fiber.h
+%{gopath}/src/nginx/unit/nxt_file.h
+%{gopath}/src/nginx/unit/nxt_file_event.h
+%{gopath}/src/nginx/unit/nxt_file_name.h
+%{gopath}/src/nginx/unit/nxt_hash.h
+%{gopath}/src/nginx/unit/nxt_http.h
+%{gopath}/src/nginx/unit/nxt_http_parse.h
+%{gopath}/src/nginx/unit/nxt_http_source.h
+%{gopath}/src/nginx/unit/nxt_job.h
+%{gopath}/src/nginx/unit/nxt_job_file.h
+%{gopath}/src/nginx/unit/nxt_job_resolve.h
+%{gopath}/src/nginx/unit/nxt_list.h
+%{gopath}/src/nginx/unit/nxt_listen_socket.h
+%{gopath}/src/nginx/unit/nxt_log.h
+%{gopath}/src/nginx/unit/nxt_log_moderation.h
+%{gopath}/src/nginx/unit/nxt_lvlhsh.c
+%{gopath}/src/nginx/unit/nxt_lvlhsh.h
+%{gopath}/src/nginx/unit/nxt_main.h
+%{gopath}/src/nginx/unit/nxt_main_process.h
+%{gopath}/src/nginx/unit/nxt_malloc.h
+%{gopath}/src/nginx/unit/nxt_mem_map.h
+%{gopath}/src/nginx/unit/nxt_mem_pool_cleanup.h
+%{gopath}/src/nginx/unit/nxt_mem_zone.h
+%{gopath}/src/nginx/unit/nxt_mp.h
+%{gopath}/src/nginx/unit/nxt_murmur_hash.c
+%{gopath}/src/nginx/unit/nxt_murmur_hash.h
+%{gopath}/src/nginx/unit/nxt_parse.h
+%{gopath}/src/nginx/unit/nxt_port.h
+%{gopath}/src/nginx/unit/nxt_port_hash.h
+%{gopath}/src/nginx/unit/nxt_port_memory.h
+%{gopath}/src/nginx/unit/nxt_port_memory_int.h
+%{gopath}/src/nginx/unit/nxt_port_rpc.h
+%{gopath}/src/nginx/unit/nxt_process.h
+%{gopath}/src/nginx/unit/nxt_process_type.h
+%{gopath}/src/nginx/unit/nxt_queue.h
+%{gopath}/src/nginx/unit/nxt_random.h
+%{gopath}/src/nginx/unit/nxt_rbtree.h
+%{gopath}/src/nginx/unit/nxt_recvbuf.h
+%{gopath}/src/nginx/unit/nxt_router.h
+%{gopath}/src/nginx/unit/nxt_runtime.h
+%{gopath}/src/nginx/unit/nxt_semaphore.h
+%{gopath}/src/nginx/unit/nxt_sendbuf.h
+%{gopath}/src/nginx/unit/nxt_service.h
+%{gopath}/src/nginx/unit/nxt_signal.h
+%{gopath}/src/nginx/unit/nxt_sockaddr.h
+%{gopath}/src/nginx/unit/nxt_socket.h
+%{gopath}/src/nginx/unit/nxt_sort.h
+%{gopath}/src/nginx/unit/nxt_source.h
+%{gopath}/src/nginx/unit/nxt_spinlock.h
+%{gopath}/src/nginx/unit/nxt_sprintf.h
+%{gopath}/src/nginx/unit/nxt_stream_source.h
+%{gopath}/src/nginx/unit/nxt_string.h
+%{gopath}/src/nginx/unit/nxt_test_build.h
+%{gopath}/src/nginx/unit/nxt_thread.h
+%{gopath}/src/nginx/unit/nxt_thread_id.h
+%{gopath}/src/nginx/unit/nxt_thread_log.h
+%{gopath}/src/nginx/unit/nxt_thread_pool.h
+%{gopath}/src/nginx/unit/nxt_thread_time.h
+%{gopath}/src/nginx/unit/nxt_time.h
+%{gopath}/src/nginx/unit/nxt_timer.h
+%{gopath}/src/nginx/unit/nxt_tls.h
+%{gopath}/src/nginx/unit/nxt_types.h
+%{gopath}/src/nginx/unit/nxt_unicode_lowcase.h
+%{gopath}/src/nginx/unit/nxt_unicode_macosx_lowcase.h
+%{gopath}/src/nginx/unit/nxt_unit.c
+%{gopath}/src/nginx/unit/nxt_unit.h
+%{gopath}/src/nginx/unit/nxt_unit_field.h
+%{gopath}/src/nginx/unit/nxt_unit_request.h
+%{gopath}/src/nginx/unit/nxt_unit_response.h
+%{gopath}/src/nginx/unit/nxt_unit_sptr.h
+%{gopath}/src/nginx/unit/nxt_unit_typedefs.h
+%{gopath}/src/nginx/unit/nxt_unix.h
+%{gopath}/src/nginx/unit/nxt_upstream.h
+%{gopath}/src/nginx/unit/nxt_upstream_source.h
+%{gopath}/src/nginx/unit/nxt_utf8.h
+%{gopath}/src/nginx/unit/nxt_vector.h
+%{gopath}/src/nginx/unit/nxt_work_queue.h
+%endif
+
+
 %prep
 %setup -q
 
@@ -367,6 +486,12 @@ source /opt/rh/rh-ruby25/enable
   --ruby=/opt/rh/rh-ruby25/root/bin/ruby \
 %endif
 
+%if %{with go}
+./configure go \
+  --go=%{_bindir}/go \
+  --go-path=%{gopath} \
+%endif
+
 %if %{with nodejs}
 ./configure nodejs \
   --node=%{_bindir}/node \
@@ -374,7 +499,7 @@ source /opt/rh/rh-ruby25/enable
   --node-gyp=%{_bindir}/node-gyp \
 %endif
 
-%make_build all
+%make_build
 
 
 %install
