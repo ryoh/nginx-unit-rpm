@@ -70,6 +70,22 @@ NGINX Unit is a dynamic web and application server, designed to run applications
 %config(noreplace) %{_sysconfdir}/logrotate.d/unit
 %config(noreplace) %{_tmpfilesdir}/unit.conf
 
+%package devel
+Summary:        NGINX Unit development package
+Group:          Development/Libraries
+
+%description devel
+%{summary}
+
+%files devel
+%{_includedir}/nxt_unit.h
+%{_includedir}/nxt_unit_field.h
+%{_includedir}/nxt_unit_request.h
+%{_includedir}/nxt_unit_response.h
+%{_includedir}/nxt_unit_sptr.h
+%{_includedir}/nxt_unit_typedefs.h
+%{_libdir}/libunit.a
+
 
 %if %{with perl}
 %package perl
@@ -394,6 +410,7 @@ LDFLAGS="${LDFLAGS:-%__global_ldflags}"; export LDFLAGS;
   --ld-opt="${LDFLAGS}" \
   --prefix=%{_prefix} \
   --bindir=%{_bindir} \
+  --libdir=%{_libdir} \
   --sbindir=%{_sbindir} \
   --modules=%{_libdir}/unit/modules \
   --state=%{_sharedstatedir}/unit/state \
@@ -505,7 +522,7 @@ source /opt/rh/rh-ruby25/enable
 %install
 [[ -d %{buildroot} ]] && rm -rf "%{buildroot}"
 %{__mkdir} -p "%{buildroot}"
-%make_install all
+%make_install all libunit-install
 
 # systemd service
 %{__install} -D -p -m 0400 %{SOURCE10} %{buildroot}%{_unitdir}/unit.service
