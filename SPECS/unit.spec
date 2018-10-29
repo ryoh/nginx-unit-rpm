@@ -21,8 +21,8 @@
 
 
 Name:           unit
-Version:        1.4
-Release:        2%{?dist}
+Version:        1.5
+Release:        1%{?dist}
 Summary:        A dynamic web and application server.
 
 Group:          System Environment/Daemons
@@ -448,6 +448,8 @@ esac
 
 
 %changelog
+* Mon Oct 29 2018 Ryoh Kawai <kawairyoh@gmail.com> - 1.5-1%{?dist}
+- Bump up 1.5
 * Fri Oct 19 2018 Ryoh Kawai <kawairyoh@gmail.com> - 1.4-2%{?dist}
 - Add PHP 5.6/7.0/7.1 modules  (from scl package)
 - Add Ruby 2.3/2.4/2.5 modules (from scl package)
